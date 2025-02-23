@@ -20,3 +20,11 @@ export type Task = {
 
   // 定義 Task 列表的類型
 export type TaskList = Task[]
+
+export type AddTask= {
+  is_completed: boolean
+  created_at: string
+  updated_at: string
+  name: string
+  description: string
+}

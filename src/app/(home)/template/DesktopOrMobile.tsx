@@ -2,28 +2,46 @@
 
 import React, { useState } from 'react';
 import Header from '@/app/(home)/components/Header';
-import { TaskList } from '@/types/task';
+import { AddTask, TaskList } from '@/types/task';
 import Table from '@/components/Table';
+import AddListContent from '../components/AddListContent';
+import { addNewTask, getTaskList } from '@/actions/task';
 
 export interface Props {
-  data: TaskList;
+  initialData: TaskList;
 }
 
 const DesktopOrMobile = (props: Props) => {
-  const { data } = props;
-  const [isChecked, setIsChecked] = useState(true);
+  const { initialData } = props;
+  const [tasks, setTasks] = useState<TaskList>(initialData);
+  const [showCompleted, setShowCompleted] = useState(true);
 
-  const handleCheckboxChange = (checked: boolean) => {
-    setIsChecked(checked);
+  const updateTasks = async () => {
+    const { data }: { data: TaskList } = await getTaskList();
+    setTasks(data);
   };
 
+  const handleAddTask = async (newTaskData: AddTask) => {
+    await addNewTask(newTaskData);
+    await updateTasks();
+  };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setShowCompleted(checked);
+  };
+
+  const filteredTasks = tasks.filter(
+    (task) => showCompleted || !task.is_completed,
+  );
+
   return (
-    <main className="w-full">
+    <main className="w-full flex flex-col gap-3">
       <Header
-        isChecked={isChecked}
+        showCompleted={showCompleted}
         handleCheckboxChange={handleCheckboxChange}
       />
-      <Table tasks={data} />
+      <AddListContent addTask={handleAddTask} />
+      <Table tasks={filteredTasks} />
     </main>
   );
 };
