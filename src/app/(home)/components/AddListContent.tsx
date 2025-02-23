@@ -36,7 +36,8 @@ const AddListContent = ({
         placeholder="任務名稱"
         value={newTask.name}
         onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
-        className="bg-black placeholder-gray-500 text-gray-400 outline-none p-2 border rounded"
+        onKeyDown={(e) => e.key === 'Enter' && handleAddTask()}
+        className="bg-black placeholder-gray-500 text-gray-400 p-2 border rounded"
       />
       <input
         type="text"
@@ -45,7 +46,8 @@ const AddListContent = ({
         onChange={(e) =>
           setNewTask({ ...newTask, description: e.target.value })
         }
-        className="bg-black placeholder-gray-500 text-gray-400 outline-none p-2 border rounded"
+        onKeyDown={(e) => e.key === 'Enter' && handleAddTask()}
+        className="bg-black placeholder-gray-500 text-gray-400 p-2 border rounded"
       />
       <button
         onClick={handleAddTask}
