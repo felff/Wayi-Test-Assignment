@@ -11,7 +11,8 @@ const AddListContent = ({
   const [error, setError] = useState('');
 
   const handleAddTask = async () => {
-    if (!newTask.name.trim() || loading) {
+    if (loading) return;
+    if (!newTask.name.trim()) {
       setError('任務名稱為必填項');
       return;
     }
