@@ -84,7 +84,7 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
 
   const Marquee = ({ items }: { items: string[] }) => {
     return (
-      <div className="relative overflow-hidden whitespace-nowrap py-3">
+      <div className="relative overflow-scroll whitespace-nowrap py-3 w-full">
         <div className="animate-marquee inline-block min-w-full">
           {items.map((item, index) => (
             <span
@@ -102,7 +102,7 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
   return (
     <main>
       <header
-        className="relative  h-[600px] bg-cover bg-center z-50"
+        className="relative h-[300px]  sm:h-[600px] bg-cover bg-center z-50"
         style={{ backgroundImage: "url('/bg.jpg')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -111,7 +111,7 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
           </h1>
         </div>
       </header>
-      <div className="py-5 flex flex-col items-center justify-center  ">
+      <div className="py-5 flex flex-col items-center justify-center">
         <Marquee
           items={[
             '🔥 限時折扣中',
@@ -122,7 +122,7 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
         />
       </div>
       {/* 商品展示區 */}
-      <section className="w-full px-72 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 bg-gray-100">
+      <section className="w-full px-6 sm:px-72 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 bg-gray-100">
         {items.map((item, index) => (
           <div
             key={index}

@@ -30,7 +30,7 @@ const LineFloatingButton = ({
 
   const widgetPosition = isMobile
     ? 'fixed bottom-14 right-1'
-    : 'fixed bottom-6 right-6';
+    : 'fixed bottom-1 right-1';
 
   const handlePointerDown = (e: React.PointerEvent) => {
     dragStateRef.current = {
