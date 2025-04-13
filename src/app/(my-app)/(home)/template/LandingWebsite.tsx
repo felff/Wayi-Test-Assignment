@@ -2,11 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import LineFloatingButton from '@/app/(my-app)/(home)/components/Line';
 
-interface ILandingWebsiteProps {}
+import { getLineID, getProducts } from '@/actions/payload';
 
-const LandingWebsite = (props: ILandingWebsiteProps) => {
-  const {} = props;
-
+const LandingWebsite = async () => {
   const items = [
     {
       image: '/test1.jpg',
@@ -81,7 +79,8 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
       description: '經典不敗，值得收藏的優質選擇。',
     },
   ];
-
+  const id = await getLineID();
+  const products = await getProducts();
   return (
     <main>
       <header
@@ -99,22 +98,22 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
         展品展示
       </div>
       <section className="w-full px-2 sm:px-72 py-10 grid grid-cols-2 lg:grid-cols-3 gap-3 bg-slate-900">
-        {items.map((item, index) => (
+        {products.docs.map((item, index) => (
           <div
             key={index}
             className="relative group bg-slate-700 border border-slate-700 overflow-hidden shadow-lg rounded-lg"
           >
             <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
               <Image
-                src={item.image}
-                alt={item.title}
+                src={item.image.url}
+                alt={item.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
             <div className="p-5 bg-gradient-to-br space-y-2">
               <h2 className="text-xl font-bold text-white tracking-tight leading-snug">
-                {item.title}
+                {item.name}
               </h2>
               <p className="text-lg font-medium text-amber-600">現貨數量：1</p>
             </div>
@@ -124,7 +123,9 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
           </div>
         ))}
       </section>
-      <LineFloatingButton lineIdUrl="https://line.me/ti/p/你的LineID" />
+      <LineFloatingButton
+        lineIdUrl={`https://line.me/ti/p/${id.docs[0]?.lineId}`}
+      />
     </main>
   );
 };

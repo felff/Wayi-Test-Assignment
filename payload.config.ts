@@ -3,6 +3,9 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import type { SharpDependency } from 'payload';
 import { buildConfig } from 'payload';
+import Products from '@/app/(payload)/collections/Products';
+import Media from '@/app/(payload)/collections/Media';
+import Setting from '@/app/(payload)/collections/Setting';
 
 // @ts-ignore
 const sharpAdapter: SharpDependency = (input, options) => sharp(input, options);
@@ -11,8 +14,7 @@ export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
   editor: lexicalEditor(),
 
-  // Define and configure your collections in this array
-  collections: [],
+  collections: [Media, Products, Setting],
 
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET || '',
