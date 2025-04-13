@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import LineFloatingButton from '@/app/(home)/components/Line';
+import LineFloatingButton from '@/app/(my-app)/(home)/components/Line';
 
 interface ILandingWebsiteProps {}
 

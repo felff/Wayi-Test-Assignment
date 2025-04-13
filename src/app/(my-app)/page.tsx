@@ -1,4 +1,4 @@
-import LandingWebsite from '@/app/(home)/template/LandingWebsite';
+import LandingWebsite from '@/app/(my-app)/(home)/template/LandingWebsite';
 
 const Home = () => {
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from '@/app/(home)/components/Header';
+import Header from '@/app/(my-app)/(home)/components/Header';
 import { AddTask, TaskPreview } from '@/types/task';
 import Table from '@/components/Table';
 import AddListContent from '../components/AddListContent';

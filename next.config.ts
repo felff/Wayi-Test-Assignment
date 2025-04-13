@@ -1,6 +1,13 @@
 import type { NextConfig } from 'next';
+import { withPayload } from '@payloadcms/next/withPayload';
 
 const nextConfig: NextConfig = {
+  experimental: {
+    reactCompiler: false,
+  },
+  sassOptions: {
+    includePaths: ['./node_modules', './styles'],
+  },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule: any) =>
@@ -30,4 +37,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);
