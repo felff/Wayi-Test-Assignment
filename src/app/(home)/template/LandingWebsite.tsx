@@ -82,23 +82,6 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
     },
   ];
 
-  const Marquee = ({ items }: { items: string[] }) => {
-    return (
-      <div className="relative overflow-scroll whitespace-nowrap py-3 w-full">
-        <div className="animate-marquee inline-block min-w-full">
-          {items.map((item, index) => (
-            <span
-              key={index}
-              className=" text-lg font-medium mx-8 inline-block"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <main>
       <header
@@ -111,38 +94,29 @@ const LandingWebsite = (props: ILandingWebsiteProps) => {
           </h1>
         </div>
       </header>
-      <div className="py-5 flex flex-col items-center justify-center">
-        <Marquee
-          items={[
-            '🔥 限時折扣中',
-            '🚀 新品上市',
-            '🎁 滿額贈好禮',
-            '📦 免運費活動進行中',
-          ]}
-        />
-      </div>
       {/* 商品展示區 */}
-      <section className="w-full px-6 sm:px-72 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 bg-gray-100">
+      <div className="py-3 text-[30px] text-center text-white bg-slate-950">
+        展品展示
+      </div>
+      <section className="w-full px-2 sm:px-72 py-10 grid grid-cols-2 lg:grid-cols-3 gap-3 bg-slate-900">
         {items.map((item, index) => (
           <div
             key={index}
-            className="relative group rounded-xl overflow-hidden shadow-lg"
+            className="relative group bg-slate-700 border border-slate-700 overflow-hidden shadow-lg rounded-lg"
           >
-            <div className="relative w-full h-80 bg-gradient-to-br from-black to-gray-400 overflow-hidden group">
+            <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
               <Image
                 src={item.image}
                 alt={item.title}
                 fill
-                className="object-contain p-6 transition-transform duration-300 group-hover:scale-105"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            <div className="p-5  bg-gradient-to-br from-white to-gray-400 space-y-2">
-              <h2 className="text-2xl font-bold text-gray-800 tracking-tight leading-snug">
+            <div className="p-5 bg-gradient-to-br space-y-2">
+              <h2 className="text-xl font-bold text-white tracking-tight leading-snug">
                 {item.title}
               </h2>
-              <p className="text-lg font-medium text-amber-600">
-                ${item.price}
-              </p>
+              <p className="text-lg font-medium text-amber-600">現貨數量：1</p>
             </div>
             <div className="absolute inset-0 bg-black bg-opacity-70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
               <p className="text-sm">{item.description}</p>
