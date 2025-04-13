@@ -1,9 +1,9 @@
-import DesktopOrMobile from './(home)/template/DesktopOrMobile';
+import LandingWebsite from '@/app/(home)/template/LandingWebsite';
 
 const Home = () => {
   return (
-    <main className="w-full h-svh flex justify-center items-center px-20">
-      <DesktopOrMobile />
+    <main className="w-full h-svh">
+      <LandingWebsite />
     </main>
   );
 };
