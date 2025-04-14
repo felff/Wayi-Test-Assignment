@@ -82,6 +82,7 @@ const LandingWebsite = ({
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [hasMore]);
+
   return (
     <main>
       <header
@@ -106,7 +107,7 @@ const LandingWebsite = ({
           >
             <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
               <Image
-                src={item.image.url}
+                src={item.image.sizes.small.url}
                 alt={item.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
