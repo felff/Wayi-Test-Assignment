@@ -7,7 +7,7 @@ import { getLineID, getProducts } from '@/actions/payload';
 const LandingWebsite = async () => {
   const id = await getLineID()
   const products = await getProducts();
-  console.log(id);
+  console.log(id ,'https://lin.ee/N5kYhQTe');
   return (
     <main>
       <header
@@ -51,7 +51,7 @@ const LandingWebsite = async () => {
         ))}
       </section>
       <LineFloatingButton
-        lineIdUrl={id.docs[0].lineId}
+         lineIdUrl={id?.docs?.[0]?.lineId ?? "https://lin.ee/N5kYhQTe"} 
       />
     </main>
   );
