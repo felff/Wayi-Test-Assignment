@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import React, { useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
 
 interface ILineButtonProps {
@@ -13,13 +13,12 @@ const LineFloatingButton = ({
   lineIdUrl,
   isMobile = false,
 }: ILineButtonProps) => {
-
   const widgetPosition = isMobile
     ? 'fixed bottom-14 right-1'
     : 'fixed bottom-1 right-1';
 
   const handleClick = () => {
-      window.open(lineIdUrl, '_blank');
+    window.open(lineIdUrl, '_blank');
   };
 
   return (

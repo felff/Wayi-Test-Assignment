@@ -6,6 +6,7 @@ import { buildConfig } from 'payload';
 import Products from '@/app/(payload)/collections/Products';
 import Media from '@/app/(payload)/collections/Media';
 import Setting from '@/app/(payload)/collections/Setting';
+import { s3Storage } from '@payloadcms/storage-s3';
 
 // @ts-ignore
 const sharpAdapter: SharpDependency = (input, options) => sharp(input, options);
@@ -28,4 +29,20 @@ export default buildConfig({
   // This is optional - if you don't need to do these things,
   // you don't need it!
   sharp: sharpAdapter,
+  plugins: [
+    s3Storage({
+      collections: {
+        [Media.slug]: true,
+      },
+      bucket: process.env.PAYLOAD_S3_BUCKET_NAME || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.PAYLOAD_S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.PAYLOAD_S3_SECRET_ACCESS_KEY || '',
+        },
+        region: process.env.PAYLOAD_S3_REGION || 'auto',
+        endpoint: process.env.PAYLOAD_S3_ENDPOINT,
+      },
+    }),
+  ],
 });
