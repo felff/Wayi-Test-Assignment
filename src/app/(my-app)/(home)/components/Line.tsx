@@ -13,21 +13,13 @@ const LineFloatingButton = ({
   lineIdUrl,
   isMobile = false,
 }: ILineButtonProps) => {
-  // const buttonRef = useRef<HTMLDivElement>(null);
-  const dragStateRef = useRef({
-    isDragging: false,
-    hasDragged: false,
-    startPos: { x: 0, y: 0 },
-  });
 
   const widgetPosition = isMobile
     ? 'fixed bottom-14 right-1'
     : 'fixed bottom-1 right-1';
 
   const handleClick = () => {
-    if (!dragStateRef.current.hasDragged) {
       window.open(lineIdUrl, '_blank');
-    }
   };
 
   return (

@@ -51,7 +51,7 @@ const LandingWebsite = async () => {
         ))}
       </section>
       <LineFloatingButton
-         lineIdUrl={id?.docs?.[0]?.lineId ?? "https://lin.ee/N5kYhQTe"} 
+         lineIdUrl={id?.docs?.[0]?.lineId} 
       />
     </main>
   );
