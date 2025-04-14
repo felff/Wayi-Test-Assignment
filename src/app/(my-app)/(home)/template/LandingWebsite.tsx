@@ -82,7 +82,6 @@ const LandingWebsite = ({
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [hasMore]);
-  console.log(product);
   return (
     <main>
       <header
