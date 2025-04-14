@@ -53,6 +53,7 @@ const LandingWebsite = ({
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(products.hasNextPage);
   const loaderRef = useRef(null);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
 
   useEffect(() => {
     if (page === 1) {
@@ -83,6 +84,7 @@ const LandingWebsite = ({
     };
   }, [hasMore]);
 
+  console.log(product);
   return (
     <main>
       <header
@@ -107,7 +109,7 @@ const LandingWebsite = ({
           >
             <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
               <Image
-                src={item.image.url}
+                src={`${baseUrl}${item.image?.url}`}
                 alt={item.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -117,7 +119,9 @@ const LandingWebsite = ({
               <h2 className="text-xl font-bold text-white tracking-tight leading-snug">
                 {item.name}
               </h2>
-              <p className="text-lg font-medium text-amber-600">現貨數量：{}</p>
+              <p className="text-lg font-medium text-amber-600">
+                現貨數量：{item.quantity}
+              </p>
             </div>
             <div className="absolute inset-0 bg-black bg-opacity-70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
               <p className="text-sm">{item.description}</p>
