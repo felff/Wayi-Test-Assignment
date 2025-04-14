@@ -5,82 +5,9 @@ import LineFloatingButton from '@/app/(my-app)/(home)/components/Line';
 import { getLineID, getProducts } from '@/actions/payload';
 
 const LandingWebsite = async () => {
-  const items = [
-    {
-      image: '/test1.jpg',
-      title: '酷炫商品 1',
-      price: '199',
-      description: '這是一個很棒的商品，提供極致體驗。',
-    },
-    {
-      image: '/test2.jpg',
-      title: '熱銷商品 2',
-      price: '299',
-      description: '滑鼠懸停就能看到這段描述內容！',
-    },
-    {
-      image: '/test3.jpg',
-      title: '限量商品 3',
-      price: '399',
-      description: '數量有限，售完為止，快來搶購！',
-    },
-    {
-      image: '/test4.jpg',
-      title: '經典商品 4',
-      price: '499',
-      description: '經典不敗，值得收藏的優質選擇。',
-    },
-    {
-      image: '/test1.jpg',
-      title: '酷炫商品 1',
-      price: '199',
-      description: '這是一個很棒的商品，提供極致體驗。',
-    },
-    {
-      image: '/test2.jpg',
-      title: '熱銷商品 2',
-      price: '299',
-      description: '滑鼠懸停就能看到這段描述內容！',
-    },
-    {
-      image: '/test3.jpg',
-      title: '限量商品 3',
-      price: '399',
-      description: '數量有限，售完為止，快來搶購！',
-    },
-    {
-      image: '/test4.jpg',
-      title: '經典商品 4',
-      price: '499',
-      description: '經典不敗，值得收藏的優質選擇。',
-    },
-    {
-      image: '/test1.jpg',
-      title: '酷炫商品 1',
-      price: '199',
-      description: '這是一個很棒的商品，提供極致體驗。',
-    },
-    {
-      image: '/test2.jpg',
-      title: '熱銷商品 2',
-      price: '299',
-      description: '滑鼠懸停就能看到這段描述內容！',
-    },
-    {
-      image: '/test3.jpg',
-      title: '限量商品 3',
-      price: '399',
-      description: '數量有限，售完為止，快來搶購！',
-    },
-    {
-      image: '/test4.jpg',
-      title: '經典商品 4',
-      price: '499',
-      description: '經典不敗，值得收藏的優質選擇。',
-    },
-  ];
-  const id = await getLineID();
+  const id = await getLineID()
   const products = await getProducts();
+  console.log(id);
   return (
     <main>
       <header
@@ -124,7 +51,7 @@ const LandingWebsite = async () => {
         ))}
       </section>
       <LineFloatingButton
-        lineIdUrl={`https://line.me/ti/p/${id.docs[0]?.lineId}`}
+        lineIdUrl={id.docs[0].lineId}
       />
     </main>
   );
