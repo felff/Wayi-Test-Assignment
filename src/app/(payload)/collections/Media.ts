@@ -10,6 +10,9 @@ const Media: CollectionConfig = {
   admin: {
     useAsTitle: 'filename',
   },
+  access: {
+    read: () => true, // ✅ 開放所有人讀取圖片
+  },
   fields: [],
 };
 
