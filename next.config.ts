@@ -8,6 +8,18 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: ['./node_modules', './styles'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'e-commerce-website-app.vercel.app',
+        port: '',
+        pathname: '/api/media/file/**',
+      },
+      // 如果有其他域名，也添加進來
+    ],
+  },
+  transpilePackages: ['payload'],
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule: any) =>

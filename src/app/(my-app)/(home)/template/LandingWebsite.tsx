@@ -53,7 +53,6 @@ const LandingWebsite = ({
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(products.hasNextPage);
   const loaderRef = useRef(null);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
 
   useEffect(() => {
     if (page === 1) {
@@ -83,7 +82,6 @@ const LandingWebsite = ({
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [hasMore]);
-
   console.log(product);
   return (
     <main>
@@ -109,7 +107,7 @@ const LandingWebsite = ({
           >
             <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
               <Image
-                src={`${baseUrl}${item.image?.url}`}
+                src={`${item.image?.url}`}
                 alt={item.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
