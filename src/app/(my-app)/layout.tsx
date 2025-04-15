@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: '德運閣泰梵文化',
   description: 'E Commerce Website App',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.ico?v=2',
   },
 };
 
