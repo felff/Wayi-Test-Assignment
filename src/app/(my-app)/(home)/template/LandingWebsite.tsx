@@ -4,40 +4,28 @@ import React, { useEffect, useState } from 'react';
 import LineFloatingButton from '@/app/(my-app)/(home)/components/Line';
 import { JsonObject, PaginatedDocs, TypeWithID } from 'payload';
 import { Media, Product } from '@payload-types';
-import * as Progress from '@radix-ui/react-progress';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const PAGE_SIZE = 12;
 
 const Loader = ({ hasMore }: { hasMore: boolean }) => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if (!hasMore) return;
-    setProgress(0);
-    const timer = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 0 : prev + 10));
-    }, 100);
-    return () => clearInterval(timer);
-  }, [hasMore]);
-
   return (
-    <div className="flex flex-col items-center justify-center text-white text-center py-10 bg-slate-950 space-y-4">
+    <div className="flex flex-col items-center justify-center text-center gap-4 py-5 bg-slate-900">
       {hasMore ? (
-        <>
-          <Progress.Root
-            value={progress}
-            className="relative overflow-hidden bg-slate-700 rounded-full w-64 h-3"
-          >
-            <Progress.Indicator
-              className="bg-blue-600 w-full h-full transition-all duration-200"
-              style={{ transform: `translateX(-${100 - progress}%)` }}
-            />
-          </Progress.Root>
-        </>
+        <div className="flex flex-col items-start space-y-3">
+          <div className="flex gap-4">
+            <Skeleton className="h-[125px] w-[150px] rounded-xl bg-white/30" />
+            <Skeleton className="h-[125px] w-[150px] rounded-xl bg-white/30" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px] bg-white/30" />
+            <Skeleton className="h-4 w-[200px] bg-white/30" />
+          </div>
+        </div>
       ) : (
-        <span className="text-xl font-bold">已載入全部商品</span>
+        <span className="text-xl font-bold text-white">已載入全部商品</span>
       )}
     </div>
   );
@@ -57,10 +45,10 @@ const ProductCard = ({ item }: { item: Product }) => {
         />
       </div>
       <div className="p-5 bg-gradient-to-br space-y-2">
-        <h2 className="text-xl font-bold text-white tracking-tight leading-snug">
+        <h2 className="text-sm sm:text-xl font-bold text-white tracking-tight leading-snug">
           {item.name}
         </h2>
-        <p className="text-lg font-medium text-amber-600">
+        <p className="text-sm sm:text-lg font-medium text-amber-600">
           現貨數量：{item.quantity}
         </p>
       </div>
@@ -96,7 +84,6 @@ const LandingWebsite = ({
     triggerOnce: false,
   });
 
-  // 當觀察元素進入視圖且有更多數據時加載下一頁
   useEffect(() => {
     if (inView && hasMore && !isLoading) {
       loadMoreProducts();
@@ -122,12 +109,12 @@ const LandingWebsite = ({
       setIsLoading(false);
     }
   };
-  console.log(products);
+
   return (
     <main>
       <header
-        className="relative h-[300px] sm:h-[600px] bg-cover bg-center z-50"
-        style={{ backgroundImage: "url('/bg.jpg')" }}
+        className="relative h-[250px] sm:h-[600px] bg-cover bg-center z-50"
+        style={{ backgroundImage: "url('/bg.png')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <h1 className="text-white text-4xl md:text-6xl font-bold text-center">
@@ -137,23 +124,16 @@ const LandingWebsite = ({
       </header>
 
       {/* 商品展示區 */}
-      <div className="py-3 text-[30px] text-center text-white bg-slate-950">
-        展品展示
+      <div className="py-3 text-[20px] sm:text-[30px] text-center text-white bg-amber-950 font-bold">
+        產品展示
       </div>
 
       <section className="w-full px-2 sm:px-72 py-10 grid grid-cols-2 lg:grid-cols-3 gap-3 bg-slate-900">
         {products.map((item, index) => (
-          <ProductCard key={item.id || index} item={item} />
+          <ProductCard key={index} item={item} />
         ))}
       </section>
-
-      <div
-        ref={loaderRef}
-        className="text-white text-center py-10 bg-slate-950"
-      >
-        <Loader hasMore={hasMore} />
-      </div>
-
+      <Loader hasMore={hasMore} />
       <LineFloatingButton lineIdUrl={id?.docs?.[0]?.lineId} />
     </main>
   );

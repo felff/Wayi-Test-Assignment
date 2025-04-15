@@ -3,9 +3,14 @@ import { getLineID, getProducts } from '@/actions/payload';
 
 const Home = async () => {
   const id = await getLineID();
+  const productsData = await getProducts();
   return (
     <main className="w-full h-svh">
-      <LandingWebsite id={id} />
+      <LandingWebsite
+        id={id}
+        initialProducts={productsData.docs}
+        hasNextPage={productsData.hasNextPage}
+      />
     </main>
   );
 };
