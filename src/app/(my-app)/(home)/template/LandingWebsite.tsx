@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 import LineFloatingButton from '@/app/(my-app)/(home)/components/Line';
 import { JsonObject, PaginatedDocs, TypeWithID } from 'payload';
-import { Product, Media } from '@payload-types';
+import { Media, Product } from '@payload-types';
 import * as Progress from '@radix-ui/react-progress';
+import { useInView } from 'react-intersection-observer';
+import Image from 'next/image';
 
 const PAGE_SIZE = 12;
 
@@ -42,93 +43,117 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
   );
 };
 
+// 產品卡片組件，將產品展示邏輯抽出來
+const ProductCard = ({ item }: { item: Product }) => {
+  const img = item.image as Media;
+  return (
+    <div className="relative group bg-slate-700 border border-slate-700 overflow-hidden shadow-lg rounded-lg">
+      <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
+        <Image
+          src={img.url || ''}
+          alt={item.name}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+      <div className="p-5 bg-gradient-to-br space-y-2">
+        <h2 className="text-xl font-bold text-white tracking-tight leading-snug">
+          {item.name}
+        </h2>
+        <p className="text-lg font-medium text-amber-600">
+          現貨數量：{item.quantity}
+        </p>
+      </div>
+      <div className="absolute inset-0 bg-black bg-opacity-70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
+        <p className="text-sm">{item.description}</p>
+      </div>
+    </div>
+  );
+};
+
+// 接收初始產品數據作為props
 const LandingWebsite = ({
   id,
+  initialProducts,
+  hasNextPage,
 }: {
   id: PaginatedDocs<JsonObject & TypeWithID>;
+  initialProducts?: Product[];
+  hasNextPage?: boolean;
 }) => {
-  const [product, setProduct] = useState<Product[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const loaderRef = useRef(null);
+  const [products, setProducts] = useState<Product[]>(initialProducts || []);
+  const [page, setPage] = useState(
+    initialProducts && initialProducts.length > 0 ? 2 : 1,
+  );
+  const [hasMore, setHasMore] = useState(
+    hasNextPage !== undefined ? hasNextPage : true,
+  );
+  const [isLoading, setIsLoading] = useState(false);
 
+  // 使用 react-intersection-observer 替代自定義 IntersectionObserver
+  const { ref: loaderRef, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: false,
+  });
+
+  // 當觀察元素進入視圖且有更多數據時加載下一頁
   useEffect(() => {
-    const loadProducts = async () => {
+    if (inView && hasMore && !isLoading) {
+      loadMoreProducts();
+    }
+  }, [inView, hasMore]);
+
+  // 加載更多產品的函數
+  const loadMoreProducts = async () => {
+    if (isLoading || !hasMore) return;
+
+    setIsLoading(true);
+    try {
       const res = await fetch(`/api/products?page=${page}&limit=${PAGE_SIZE}`);
       const data = (await res.json()) as PaginatedDocs<Product>;
-      if (page === 1) {
-        setProduct(data.docs); // 第一次載入
-      } else {
-        setProduct((prev) => [...prev, ...data.docs]); // 後續追加
-      }
+
+      // 使用函數式更新來確保狀態更新正確
+      setProducts((prev) => [...prev, ...data.docs]);
       setHasMore(data.hasNextPage);
-    };
-    loadProducts();
-  }, [page]);
-
-  useEffect(() => {
-    if (!hasMore) return;
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setPage((prev) => prev + 1);
-      }
-    });
-    if (loaderRef.current) observer.observe(loaderRef.current);
-    return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
-    };
-  }, [hasMore]);
-
+      setPage((prev) => prev + 1);
+    } catch (error) {
+      console.error('Error loading products:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  console.log(products);
   return (
     <main>
       <header
-        className="relative h-[300px]  sm:h-[600px] bg-cover bg-center z-50"
+        className="relative h-[300px] sm:h-[600px] bg-cover bg-center z-50"
         style={{ backgroundImage: "url('/bg.jpg')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <h1 className="text-white text-4xl md:text-6xl font-bold text-center">
-            歡迎來到我們的網站
+            德運閣泰梵文化
           </h1>
         </div>
       </header>
+
       {/* 商品展示區 */}
       <div className="py-3 text-[30px] text-center text-white bg-slate-950">
         展品展示
       </div>
+
       <section className="w-full px-2 sm:px-72 py-10 grid grid-cols-2 lg:grid-cols-3 gap-3 bg-slate-900">
-        {product.map((item, index) => {
-          const img = item?.image as Media;
-          return<main
-            key={index}
-            className="relative group bg-slate-700 border border-slate-700 overflow-hidden shadow-lg rounded-lg"
-          >
-            <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
-              <Image
-                src={img.sizes?.small?.url??''}
-                alt={item.name}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-5 bg-gradient-to-br space-y-2">
-              <h2 className="text-xl font-bold text-white tracking-tight leading-snug">
-                {item.name}
-              </h2>
-              <p className="text-lg font-medium text-amber-600">
-                現貨數量：{item.quantity}
-              </p>
-            </div>
-            <div className="absolute inset-0 bg-black bg-opacity-70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
-              <p className="text-sm">{item.description}</p>
-            </div>
-          </main>})}
+        {products.map((item, index) => (
+          <ProductCard key={item.id || index} item={item} />
+        ))}
       </section>
+
       <div
         ref={loaderRef}
         className="text-white text-center py-10 bg-slate-950"
       >
         <Loader hasMore={hasMore} />
       </div>
+
       <LineFloatingButton lineIdUrl={id?.docs?.[0]?.lineId} />
     </main>
   );

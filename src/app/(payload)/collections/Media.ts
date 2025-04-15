@@ -2,17 +2,7 @@ import { CollectionConfig } from 'payload';
 
 const Media: CollectionConfig = {
   slug: 'media',
-  upload: {
-    staticDir: 'media',
-    imageSizes: [
-      {
-        name: 'small',
-        width: 500,
-        position: 'centre',
-        formatOptions: { format: 'webp' },
-      },
-    ],
-  },
+  upload: true,
   labels: {
     singular: '圖片',
     plural: '圖片',
