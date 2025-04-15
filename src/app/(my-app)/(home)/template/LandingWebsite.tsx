@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import LineFloatingButton from '@/app/(my-app)/(home)/components/Line';
 import { JsonObject, PaginatedDocs, TypeWithID } from 'payload';
-import { Product } from '@payload-types';
+import { Product, Media } from '@payload-types';
 import * as Progress from '@radix-ui/react-progress';
 
 const PAGE_SIZE = 12;
@@ -44,27 +44,23 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
 
 const LandingWebsite = ({
   id,
-  products,
 }: {
   id: PaginatedDocs<JsonObject & TypeWithID>;
-  products: PaginatedDocs<Product>;
 }) => {
-  const [product, setProduct] = useState<any[]>(products.docs);
+  const [product, setProduct] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(products.hasNextPage);
+  const [hasMore, setHasMore] = useState(true);
   const loaderRef = useRef(null);
 
   useEffect(() => {
-    if (page === 1) {
-      setPage(2);
-      return;
-    }
     const loadProducts = async () => {
-      const res: Response = await fetch(
-        `/api/products?page=${page}&limit=${PAGE_SIZE}`,
-      );
+      const res = await fetch(`/api/products?page=${page}&limit=${PAGE_SIZE}`);
       const data = (await res.json()) as PaginatedDocs<Product>;
-      setProduct((prev) => [...prev, ...data.docs]);
+      if (page === 1) {
+        setProduct(data.docs); // 第一次載入
+      } else {
+        setProduct((prev) => [...prev, ...data.docs]); // 後續追加
+      }
       setHasMore(data.hasNextPage);
     };
     loadProducts();
@@ -100,14 +96,15 @@ const LandingWebsite = ({
         展品展示
       </div>
       <section className="w-full px-2 sm:px-72 py-10 grid grid-cols-2 lg:grid-cols-3 gap-3 bg-slate-900">
-        {product.map((item, index) => (
-          <main
+        {product.map((item, index) => {
+          const img = item?.image as Media;
+          return<main
             key={index}
             className="relative group bg-slate-700 border border-slate-700 overflow-hidden shadow-lg rounded-lg"
           >
             <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
               <Image
-                src={item.image.sizes.small.url}
+                src={img.sizes?.small?.url??''}
                 alt={item.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -124,8 +121,7 @@ const LandingWebsite = ({
             <div className="absolute inset-0 bg-black bg-opacity-70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
               <p className="text-sm">{item.description}</p>
             </div>
-          </main>
-        ))}
+          </main>})}
       </section>
       <div
         ref={loaderRef}
