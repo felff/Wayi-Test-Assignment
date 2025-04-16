@@ -113,8 +113,8 @@ const LandingWebsite = ({
   return (
     <main>
       <header
-        className="relative h-[250px] sm:h-[700px] bg-cover bg-bottom z-50"
-        style={{ backgroundImage: "url('/bg.png')" }}
+        className="relative aspect-[6/4] bg-cover bg-bottom z-50"
+        style={{ backgroundImage: "url('/bg.jpg')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <h1 className="text-white text-4xl md:text-6xl font-bold text-center">
