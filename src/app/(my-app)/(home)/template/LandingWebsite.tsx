@@ -96,9 +96,11 @@ const LandingWebsite = ({
 
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/products?page=${page}&limit=${PAGE_SIZE}`);
+      const res = await fetch(`/api/products?page=${page}&limit=${PAGE_SIZE}`, {
+        cache: 'no-store',
+        next: { revalidate: 0 },
+      });
       const data = (await res.json()) as PaginatedDocs<Product>;
-
       // 使用函數式更新來確保狀態更新正確
       setProducts((prev) => [...prev, ...data.docs]);
       setHasMore(data.hasNextPage);
