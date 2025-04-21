@@ -32,7 +32,9 @@ export default buildConfig({
   plugins: [
     s3Storage({
       collections: {
-        [Media.slug]: true,
+        [Media.slug]: {
+          cacheControl: 'public, max-age=31536000, immutable',
+        },
       },
       bucket: process.env.PAYLOAD_S3_BUCKET_NAME || '',
       config: {
