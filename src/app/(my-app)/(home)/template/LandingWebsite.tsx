@@ -35,15 +35,22 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
 
 // 產品卡片組件，將產品展示邏輯抽出來
 const ProductCard = ({ item }: { item: Product }) => {
+  const [showDescription, setShowDescription] = useState(false);
   const img = item.image as Media;
+
+  const toggleDescription = () => setShowDescription((prev) => !prev);
+
   return (
-    <div className="relative group bg-slate-700 border border-slate-700 overflow-hidden shadow-lg rounded-lg">
+    <div
+      className="relative group bg-slate-700 border border-slate-700 overflow-hidden shadow-lg rounded-lg"
+      onClick={toggleDescription}
+    >
       <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
         <Image
           src={img.url || ''}
           alt={item.name}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className={`object-cover transition-transform duration-200 ${showDescription ? 'scale-105' : 'scale-100'}`}
         />
       </div>
       <div className="p-5 bg-gradient-to-br space-y-2">
@@ -54,8 +61,12 @@ const ProductCard = ({ item }: { item: Product }) => {
           現貨數量：{item.quantity}
         </p>
       </div>
-      <div className="absolute inset-0 bg-black bg-opacity-70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
-        <p className="text-sm">{item.description}</p>
+      <div
+        className={`absolute inset-0 bg-black bg-opacity-80 text-white flex items-center justify-center transition-opacity duration-200 p-1 sm:p-6 text-center ${
+          showDescription ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <p className="text-[11px] sm:text-sm">{item.description}</p>
       </div>
     </div>
   );
