@@ -8,7 +8,7 @@ import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
 const Loader = ({ hasMore }: { hasMore: boolean }) => {
   return (
