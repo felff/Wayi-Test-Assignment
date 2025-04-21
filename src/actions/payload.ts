@@ -15,7 +15,6 @@ export const getProducts = async (page = 1, limit = 12) => {
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/products?page=${page}&limit=${limit}`,
       {
         cache: 'no-store',
-        next: { revalidate: 0 },
       },
     );
     return (await response.json()) as PaginatedDocs<Product>;
