@@ -10,6 +10,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const PAGE_SIZE = 12;
 
+type ProductCardProps = {
+  item: Product;
+  activeProductId: string | null;
+  setActiveProductId: (id: string | null) => void;
+};
+
 const Loader = ({ hasMore }: { hasMore: boolean }) => {
   return (
     <div className="flex flex-col items-center justify-center text-center gap-4 py-5 bg-slate-900">
@@ -25,7 +31,7 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
           </div>
         </div>
       ) : (
-        <span className="text-xl font-bold text-white pb-20">
+        <span className="text-xl font-bold text-white pb-10">
           已載入全部商品
         </span>
       )}
@@ -34,11 +40,22 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
 };
 
 // 產品卡片組件，將產品展示邏輯抽出來
-const ProductCard = ({ item }: { item: Product }) => {
-  const [showDescription, setShowDescription] = useState(false);
+const ProductCard = ({
+  item,
+  activeProductId,
+  setActiveProductId,
+}: ProductCardProps) => {
   const img = item.image as Media;
 
-  const toggleDescription = () => setShowDescription((prev) => !prev);
+  const isActive = activeProductId === item.id;
+
+  const toggleDescription = () => {
+    if (isActive) {
+      setActiveProductId(null);
+    } else {
+      setActiveProductId(item.id);
+    }
+  };
 
   return (
     <div
@@ -50,7 +67,7 @@ const ProductCard = ({ item }: { item: Product }) => {
           src={img.url || ''}
           alt={item.name}
           fill
-          className={`object-cover transition-transform duration-200 ${showDescription ? 'scale-105' : 'scale-100'}`}
+          className={`object-cover transition-transform duration-200 ${isActive ? 'scale-105' : 'scale-100'}`}
         />
       </div>
       <div className="p-5 bg-gradient-to-br space-y-2">
@@ -63,7 +80,7 @@ const ProductCard = ({ item }: { item: Product }) => {
       </div>
       <div
         className={`absolute inset-0 bg-black bg-opacity-80 text-white flex items-center justify-center transition-opacity duration-200 p-1 sm:p-6 text-center ${
-          showDescription ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >
         <p className="text-[11px] sm:text-sm">{item.description}</p>
@@ -90,6 +107,7 @@ const LandingWebsite = ({
     hasNextPage !== undefined ? hasNextPage : true,
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [activeProductId, setActiveProductId] = useState<string | null>(null);
 
   // 使用 react-intersection-observer 替代自定義 IntersectionObserver
   const { ref: loaderRef, inView } = useInView({
@@ -137,7 +155,12 @@ const LandingWebsite = ({
 
       <section className="w-full px-2 sm:px-72 py-10 grid grid-cols-2 lg:grid-cols-3 gap-3 bg-slate-900">
         {products.map((item, index) => (
-          <ProductCard key={index} item={item} />
+          <ProductCard
+            key={item.id}
+            item={item}
+            activeProductId={activeProductId}
+            setActiveProductId={setActiveProductId}
+          />
         ))}
       </section>
       <div ref={loaderRef} className="text-white text-center">
