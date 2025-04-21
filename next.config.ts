@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 's-maxage=1, stale-while-revalidate=59',
+            value: 'no-store, max-age=0',
           },
         ],
       },
@@ -43,15 +43,6 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'no-store, max-age=0',
-          },
-        ],
-      },
-      {
-        source: '/api/media/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400',
           },
         ],
       },
