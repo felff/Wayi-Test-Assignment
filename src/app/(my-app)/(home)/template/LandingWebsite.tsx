@@ -116,7 +116,7 @@ const LandingWebsite = ({
     <main>
       <header
         className="relative aspect-[6/4] bg-cover bg-bottom z-50"
-        style={{ backgroundImage: "url('/bg.jpg')" }}
+        style={{ backgroundImage: "url('/bgs.jpg')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <h1 className="text-white text-4xl md:text-6xl font-bold text-center">
