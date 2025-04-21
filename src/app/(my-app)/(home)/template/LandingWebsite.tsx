@@ -25,7 +25,9 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
           </div>
         </div>
       ) : (
-        <span className="text-xl font-bold text-white">已載入全部商品</span>
+        <span className="text-xl font-bold text-white pb-20">
+          已載入全部商品
+        </span>
       )}
     </div>
   );
@@ -86,20 +88,18 @@ const LandingWebsite = ({
 
   useEffect(() => {
     if (inView && hasMore && !isLoading) {
+      console.log('hasNextPage', hasNextPage);
       loadMoreProducts();
     }
   }, [inView, hasMore]);
-
   // 加載更多產品的函數
   const loadMoreProducts = async () => {
     if (isLoading || !hasMore) return;
-
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/products?page=${page}&limit=${PAGE_SIZE}`, {
-        cache: 'no-store',
-        next: { revalidate: 0 },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/products?page=${page}&limit=${PAGE_SIZE}`,
+      );
       const data = (await res.json()) as PaginatedDocs<Product>;
       // 使用函數式更新來確保狀態更新正確
       setProducts((prev) => [...prev, ...data.docs]);
@@ -135,7 +135,9 @@ const LandingWebsite = ({
           <ProductCard key={index} item={item} />
         ))}
       </section>
-      <Loader hasMore={hasMore} />
+      <div ref={loaderRef} className="text-white text-center">
+        <Loader hasMore={hasMore} />
+      </div>
       <LineFloatingButton lineIdUrl={id?.docs?.[0]?.lineId} />
     </main>
   );
