@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import LandingWebsite from '@/app/(my-app)/(home)/template/LandingWebsite';
 import { getLineID, getProducts } from '@/actions/payload';
 
