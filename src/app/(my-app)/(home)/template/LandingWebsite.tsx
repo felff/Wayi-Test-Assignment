@@ -64,7 +64,7 @@ const ProductCard = ({
     >
       <div className="relative aspect-[4/4] bg-gradient-to-br overflow-hidden group">
         <Image
-          src={img.url || ''}
+          src={img?.url || ''}
           alt={item.name}
           fill
           className={`object-cover transition-transform duration-200 ${isActive ? 'scale-105' : 'scale-100'}`}
