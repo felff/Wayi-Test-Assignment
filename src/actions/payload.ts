@@ -8,7 +8,7 @@ const getPayloadClient = async () => {
 };
 
 // ✅ 1. Server-side 用法：get all products (or paginated)
-export const getProducts = async (page = 1, limit = 12) => {
+export const getProducts = async (page = 1, limit = 9) => {
   const payload = await getPayloadClient();
   try {
     const data = await payload.find({
