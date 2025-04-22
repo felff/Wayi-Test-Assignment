@@ -16,7 +16,7 @@ export const getProducts = async (page = 1, limit = 12) => {
       pagination: true,
       limit,
       page,
-      sort: 'order',
+      sort: '-quantity',
     });
     return data;
   } catch (error) {

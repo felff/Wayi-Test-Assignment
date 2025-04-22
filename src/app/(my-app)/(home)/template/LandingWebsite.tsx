@@ -96,16 +96,12 @@ const LandingWebsite = ({
   hasNextPage,
 }: {
   id: PaginatedDocs<JsonObject & TypeWithID>;
-  initialProducts?: Product[];
-  hasNextPage?: boolean;
+  initialProducts: Product[];
+  hasNextPage: boolean;
 }) => {
-  const [products, setProducts] = useState<Product[]>(initialProducts || []);
-  const [page, setPage] = useState(
-    initialProducts && initialProducts.length > 0 ? 2 : 1,
-  );
-  const [hasMore, setHasMore] = useState(
-    hasNextPage !== undefined ? hasNextPage : true,
-  );
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [page, setPage] = useState(2);
+  const [hasMore, setHasMore] = useState(hasNextPage);
   const [isLoading, setIsLoading] = useState(false);
   const [activeProductId, setActiveProductId] = useState<string | null>(null);
 
@@ -117,7 +113,6 @@ const LandingWebsite = ({
 
   useEffect(() => {
     if (inView && hasMore && !isLoading) {
-      console.log('hasNextPage', hasNextPage);
       loadMoreProducts();
     }
   }, [inView, hasMore]);
@@ -127,7 +122,7 @@ const LandingWebsite = ({
     setIsLoading(true);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/products?page=${page}&limit=${PAGE_SIZE}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/products?page=${page}&limit=${PAGE_SIZE}&sort=-quantity`,
       );
       const data = (await res.json()) as PaginatedDocs<Product>;
       // 使用函數式更新來確保狀態更新正確
@@ -156,7 +151,7 @@ const LandingWebsite = ({
       <section className="w-full px-2 sm:px-72 py-10 grid grid-cols-2 lg:grid-cols-3 gap-3 bg-slate-900">
         {products.map((item, index) => (
           <ProductCard
-            key={item.id}
+            key={index}
             item={item}
             activeProductId={activeProductId}
             setActiveProductId={setActiveProductId}
