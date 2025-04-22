@@ -1,7 +1,7 @@
 import { getPayload } from 'payload';
 import config from '@payload-config';
 
-const getPayloadClient = async () => {
+export const getPayloadClient = async () => {
   const payload = await getPayload({ config });
   if (payload) return payload;
   throw new Error('Payload client not found');
@@ -16,7 +16,7 @@ export const getProducts = async (page = 1, limit = 12) => {
       pagination: true,
       limit,
       page,
-      sort: '-quantity',
+      sort: 'createdAt',
     });
     return data;
   } catch (error) {
