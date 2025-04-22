@@ -122,7 +122,7 @@ const LandingWebsite = ({
     setIsLoading(true);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/products?page=${page}&limit=${PAGE_SIZE}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/products?page=${page}&limit=${PAGE_SIZE}&sort=createdAt`,
       );
       const data = (await res.json()) as PaginatedDocs<Product>;
       // 使用函數式更新來確保狀態更新正確
