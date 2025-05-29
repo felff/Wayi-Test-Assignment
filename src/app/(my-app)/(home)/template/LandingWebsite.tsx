@@ -18,7 +18,7 @@ type ProductCardProps = {
 
 const Loader = ({ hasMore }: { hasMore: boolean }) => {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-4 py-5 bg-slate-900">
+    <div className="flex flex-col items-center justify-center text-center gap-4 pt-5 bg-slate-900">
       {hasMore ? (
         <div className="flex flex-col items-start space-y-3">
           <div className="flex gap-4">
@@ -31,9 +31,21 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
           </div>
         </div>
       ) : (
-        <span className="text-xl font-bold text-white pb-10">
-          已載入全部商品
-        </span>
+        <div>
+          <span className="text-xl font-bold text-white pb-10">
+            已載入全部商品
+          </span>
+          <div className="text-start mt-10 font-bold p-5 bg-slate-950">
+            ADDRESS 403 台灣台中市西區台灣大道二段186號14樓之1 <br />
+            No.186, Sec.2, Taiwan Blvd., 14F-1, West Dist., Taichung City 403,
+            Taiwan (R.O.C.)
+            <br />
+            <br />
+            德運閣有限公司 <br />
+            <br />
+            統一編號 | 60769297
+          </div>
+        </div>
       )}
     </div>
   );
