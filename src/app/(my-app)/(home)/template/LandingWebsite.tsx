@@ -20,7 +20,7 @@ const Loader = ({ hasMore }: { hasMore: boolean }) => {
   return (
     <div className="flex flex-col items-center justify-center text-center gap-4 pt-5 bg-slate-900">
       {hasMore ? (
-        <div className="flex flex-col items-start space-y-3">
+        <div className="flex flex-col items-start space-y-3 mb-5">
           <div className="flex gap-4">
             <Skeleton className="h-[125px] w-[150px] rounded-xl bg-white/30" />
             <Skeleton className="h-[125px] w-[150px] rounded-xl bg-white/30" />
